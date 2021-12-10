@@ -12,6 +12,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="#E0F8E0"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,6 +45,40 @@
                 android:layout_width="180sp"
                 android:layout_height="180sp"
                 android:src="@drawable/plant"/>
+
+            <ImageView
+                android:layout_marginLeft="20dp"
+                android:id="@+id/hot_water"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                android:layout_marginTop="40sp"
+                android:layout_width="60sp"
+                android:layout_height="60sp"
+                android:src="@drawable/hot_water"/>
+
+            <TextView
+                android:id="@+id/hum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12%"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hot_water"
+                android:textSize="30sp"
+                android:textColor="#0174DF"
+                android:layout_marginTop="8sp"
+                android:layout_marginLeft="20sp" />
+
+            <TextView
+                android:id="@+id/tem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30°C"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hum"
+                android:textSize="30sp"
+                android:textColor="#FE2E2E"
+                android:layout_marginTop="2sp"
+                android:layout_marginLeft="20sp" />
 
             <ImageButton
                 android:scaleType="fitCenter"

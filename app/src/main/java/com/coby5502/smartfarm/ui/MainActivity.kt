@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.txtRead.set("here you can see the message come")
+        viewModel.txtRead.set("")
     }
 
     override fun onPause(){
