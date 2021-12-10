@@ -88,7 +88,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/plant_img"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/btn_connect"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:onClick="@{()->viewModel.onClickConnect()}"
                 android:src="@{viewModel.btnConnected?@drawable/bt_bt_cn:@drawable/bt_bt_dcn}"/>
