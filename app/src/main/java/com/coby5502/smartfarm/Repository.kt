@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import com.coby5502.smartfarm.util.Event
 import com.coby5502.smartfarm.util.SPP_UUID
 import com.coby5502.smartfarm.util.Util
+import org.json.JSONObject
 import java.io.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -22,7 +23,11 @@ class Repository {
 
     var connected: MutableLiveData<Boolean?> = MutableLiveData(null)
     var progressState: MutableLiveData<String> = MutableLiveData("")
+
     val putTxt: MutableLiveData<String> = MutableLiveData("")
+    val putTem: MutableLiveData<String> = MutableLiveData("")
+    val putHum: MutableLiveData<String> = MutableLiveData("")
+    val putSol: MutableLiveData<String> = MutableLiveData("")
 
     val inProgress = MutableLiveData<Event<Boolean>>()
     val connectError = MutableLiveData<Event<Boolean>>()

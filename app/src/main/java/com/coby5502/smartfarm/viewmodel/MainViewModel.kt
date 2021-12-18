@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import com.coby5502.smartfarm.Repository
 import com.coby5502.smartfarm.util.*
+import org.json.JSONObject
 import java.nio.charset.Charset
 
 class MainViewModel(private val repository: Repository): ViewModel() {
@@ -29,10 +30,21 @@ class MainViewModel(private val repository: Repository): ViewModel() {
         get() = repository.connectError
 
     val txtRead: ObservableField<String> = ObservableField("")
-    val tem: ObservableField<String> = ObservableField("")
+    val txtTem: ObservableField<String> = ObservableField("")
+    val txtHum: ObservableField<String> = ObservableField("")
+    val txtSol: ObservableField<String> = ObservableField("")
 
     val putTxt: LiveData<String>
         get() = repository.putTxt
+
+    val putTem: LiveData<String>
+        get() = repository.putTem
+
+    val putHum: LiveData<String>
+        get() = repository.putHum
+
+    val putSol: LiveData<String>
+        get() = repository.putSol
 
     fun setInProgress(en: Boolean){
         repository.inProgress.value = Event(en)

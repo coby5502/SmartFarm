@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -20,6 +21,7 @@ import com.coby5502.smartfarm.databinding.ActivityMainBinding
 import com.coby5502.smartfarm.util.*
 import com.coby5502.smartfarm.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -48,11 +50,11 @@ class MainActivity : AppCompatActivity() {
         btn_led.setOnClickListener {
             if(btn_led_check == 0) {
                 btn_led.setImageResource(R.drawable.led_on)
-                viewModel.onClickSendData("led_on")
+                viewModel.onClickSendData("L")
                 btn_led_check = 1
             } else {
                 btn_led.setImageResource(R.drawable.led_off)
-                viewModel.onClickSendData("led_off")
+                viewModel.onClickSendData("l")
                 btn_led_check = 0
             }
         }
@@ -63,11 +65,11 @@ class MainActivity : AppCompatActivity() {
         btn_water.setOnClickListener {
             if(btn_water_check == 0) {
                 btn_water.setImageResource(R.drawable.water_on)
-                viewModel.onClickSendData("water_on")
+                viewModel.onClickSendData("W")
                 btn_water_check = 1
             } else {
                 btn_water.setImageResource(R.drawable.water_off)
-                viewModel.onClickSendData("water_off")
+                viewModel.onClickSendData("w")
                 btn_water_check = 0
             }
         }
@@ -78,11 +80,11 @@ class MainActivity : AppCompatActivity() {
         btn_fan.setOnClickListener {
             if(btn_fan_check == 0) {
                 btn_fan.setImageResource(R.drawable.fan_on)
-                viewModel.onClickSendData("fan_on")
+                viewModel.onClickSendData("F")
                 btn_fan_check = 1
             } else {
                 btn_fan.setImageResource(R.drawable.fan_off)
-                viewModel.onClickSendData("fan_off")
+                viewModel.onClickSendData("f")
                 btn_fan_check = 0
             }
         }
@@ -93,11 +95,11 @@ class MainActivity : AppCompatActivity() {
         btn_curtain.setOnClickListener {
             if(btn_curtain_check == 0) {
                 btn_curtain.setImageResource(R.drawable.curtain_on)
-                viewModel.onClickSendData("curtain_on")
+                viewModel.onClickSendData("C")
                 btn_curtain_check = 1
             } else {
                 btn_curtain.setImageResource(R.drawable.curtain_off)
-                viewModel.onClickSendData("curtain_off")
+                viewModel.onClickSendData("c")
                 btn_curtain_check = 0
             }
         }
@@ -157,11 +159,19 @@ class MainActivity : AppCompatActivity() {
         //Data Receive
         viewModel.putTxt.observe(this, {
             if (it != null) {
+                if (it == "{") {
+                    recv = ""
+                }
                 recv += it
                 sv_read_data.fullScroll(View.FOCUS_DOWN)
                 viewModel.txtRead.set(recv)
-                if(recv.length >= 4) {
-                    viewModel.tem.set(recv.substring(0, 3) + "C")
+                Log.d("checkSignal", recv)
+
+                if (it == "}") {
+                    val obj = JSONObject(recv)
+                    viewModel.txtTem.set(obj.getString("T"))
+                    viewModel.txtHum.set(obj.getString("H"))
+                    viewModel.txtSol.set(obj.getString("S"))
                 }
             }
         })
@@ -199,7 +209,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.txtRead.set("")
-        viewModel.tem.set("")
     }
 
     override fun onPause(){
