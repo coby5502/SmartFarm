@@ -167,7 +167,6 @@ class MainActivity : AppCompatActivity() {
         //Data Receive
 
         var check = false
-        var check_init = true
         viewModel.putTxt.observe(this, {
             if (it != null) {
                 if (it == "{") {
@@ -186,33 +185,41 @@ class MainActivity : AppCompatActivity() {
                     viewModel.txtSol.set(obj.getString("S"))
                     check = false
 
-                    if (check_init) {
-                        var led = obj.getString("L")
-                        var water = obj.getString("W")
-                        var fan = obj.getString("F")
-                        var curtain = obj.getString("C")
+                    var led = obj.getString("L")
+                    var water = obj.getString("W")
+                    var fan = obj.getString("F")
+                    var curtain = obj.getString("C")
 
-                        if (led == "1") {
-                            btn_led.setImageResource(R.drawable.led_on)
-                            btn_led_check = 1
-                        }
+                    if (led == "1") {
+                        btn_led.setImageResource(R.drawable.led_on)
+                        btn_led_check = 1
+                    } else {
+                        btn_led.setImageResource(R.drawable.led_off)
+                        btn_led_check = 0
+                    }
 
-                        if (water == "1") {
-                            btn_water.setImageResource(R.drawable.water_on)
-                            btn_water_check = 1
-                        }
+                    if (water == "1") {
+                        btn_water.setImageResource(R.drawable.water_on)
+                        btn_water_check = 1
+                    } else {
+                        btn_water.setImageResource(R.drawable.water_off)
+                        btn_water_check = 0
+                    }
 
-                        if (fan == "1") {
-                            btn_fan.setImageResource(R.drawable.fan_on)
-                            btn_fan_check = 1
-                        }
+                    if (fan == "1") {
+                        btn_fan.setImageResource(R.drawable.fan_on)
+                        btn_fan_check = 1
+                    } else {
+                        btn_fan.setImageResource(R.drawable.fan_off)
+                        btn_fan_check = 0
+                    }
 
-                        if (curtain == "1") {
-                            btn_curtain.setImageResource(R.drawable.curtain_on)
-                            btn_curtain_check = 1
-                        }
-
-                        check_init = false
+                    if (curtain == "1") {
+                        btn_curtain.setImageResource(R.drawable.curtain_on)
+                        btn_curtain_check = 1
+                    } else {
+                        btn_curtain.setImageResource(R.drawable.curtain_off)
+                        btn_curtain_check = 0
                     }
                 }
             }
