@@ -78,6 +78,5 @@ class MainViewModel(private val repository: Repository): ViewModel() {
     fun onClickSendData(sendTxt: String){
         val byteArr = sendTxt.toByteArray(Charset.defaultCharset())
         repository.sendByteData(byteArr)
-        Util.showNotification("send data!")
     }
 }

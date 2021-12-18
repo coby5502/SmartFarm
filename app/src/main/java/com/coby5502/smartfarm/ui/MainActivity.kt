@@ -43,66 +43,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         initObserving()
-
-        var btn_led = findViewById<ImageButton>(R.id.btn_led)
-        var btn_led_check = 0
-
-        btn_led.setOnClickListener {
-            if(btn_led_check == 0) {
-                btn_led.setImageResource(R.drawable.led_on)
-                viewModel.onClickSendData("L")
-                btn_led_check = 1
-            } else {
-                btn_led.setImageResource(R.drawable.led_off)
-                viewModel.onClickSendData("l")
-                btn_led_check = 0
-            }
-        }
-
-        var btn_water = findViewById<ImageButton>(R.id.btn_water)
-        var btn_water_check = 0
-
-        btn_water.setOnClickListener {
-            if(btn_water_check == 0) {
-                btn_water.setImageResource(R.drawable.water_on)
-                viewModel.onClickSendData("W")
-                btn_water_check = 1
-            } else {
-                btn_water.setImageResource(R.drawable.water_off)
-                viewModel.onClickSendData("w")
-                btn_water_check = 0
-            }
-        }
-
-        var btn_fan = findViewById<ImageButton>(R.id.btn_fan)
-        var btn_fan_check = 0
-
-        btn_fan.setOnClickListener {
-            if(btn_fan_check == 0) {
-                btn_fan.setImageResource(R.drawable.fan_on)
-                viewModel.onClickSendData("F")
-                btn_fan_check = 1
-            } else {
-                btn_fan.setImageResource(R.drawable.fan_off)
-                viewModel.onClickSendData("f")
-                btn_fan_check = 0
-            }
-        }
-
-        var btn_curtain = findViewById<ImageButton>(R.id.btn_curtain)
-        var btn_curtain_check = 0
-
-        btn_curtain.setOnClickListener {
-            if(btn_curtain_check == 0) {
-                btn_curtain.setImageResource(R.drawable.curtain_on)
-                viewModel.onClickSendData("C")
-                btn_curtain_check = 1
-            } else {
-                btn_curtain.setImageResource(R.drawable.curtain_off)
-                viewModel.onClickSendData("c")
-                btn_curtain_check = 0
-            }
-        }
     }
 
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -114,6 +54,74 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initObserving(){
+
+        var btn_led = findViewById<ImageButton>(R.id.btn_led)
+        var btn_led_check = 0
+
+        btn_led.setOnClickListener {
+            if(btn_led_check == 0) {
+                btn_led.setImageResource(R.drawable.led_on)
+                viewModel.onClickSendData("L")
+                btn_led_check = 1
+                Util.showNotification("LED ON!")
+            } else {
+                btn_led.setImageResource(R.drawable.led_off)
+                viewModel.onClickSendData("l")
+                btn_led_check = 0
+                Util.showNotification("LED OFF!")
+            }
+        }
+
+        var btn_water = findViewById<ImageButton>(R.id.btn_water)
+        var btn_water_check = 0
+
+        btn_water.setOnClickListener {
+            if(btn_water_check == 0) {
+                btn_water.setImageResource(R.drawable.water_on)
+                viewModel.onClickSendData("W")
+                btn_water_check = 1
+                Util.showNotification("WATER ON!")
+            } else {
+                btn_water.setImageResource(R.drawable.water_off)
+                viewModel.onClickSendData("w")
+                btn_water_check = 0
+                Util.showNotification("WATER OFF!")
+            }
+        }
+
+        var btn_fan = findViewById<ImageButton>(R.id.btn_fan)
+        var btn_fan_check = 0
+
+        btn_fan.setOnClickListener {
+            if(btn_fan_check == 0) {
+                btn_fan.setImageResource(R.drawable.fan_on)
+                viewModel.onClickSendData("F")
+                btn_fan_check = 1
+                Util.showNotification("FAN ON!")
+            } else {
+                btn_fan.setImageResource(R.drawable.fan_off)
+                viewModel.onClickSendData("f")
+                btn_fan_check = 0
+                Util.showNotification("FAN OFF!")
+            }
+        }
+
+        var btn_curtain = findViewById<ImageButton>(R.id.btn_curtain)
+        var btn_curtain_check = 0
+
+        btn_curtain.setOnClickListener {
+            if(btn_curtain_check == 0) {
+                btn_curtain.setImageResource(R.drawable.curtain_on)
+                viewModel.onClickSendData("C")
+                btn_curtain_check = 1
+                Util.showNotification("CURTAIN ON!")
+            } else {
+                btn_curtain.setImageResource(R.drawable.curtain_off)
+                viewModel.onClickSendData("c")
+                btn_curtain_check = 0
+                Util.showNotification("CURTAIN OFF!")
+            }
+        }
 
         //Progress
         viewModel.inProgress.observe(this, {
@@ -157,21 +165,55 @@ class MainActivity : AppCompatActivity() {
         })
 
         //Data Receive
+
+        var check = false
+        var check_init = true
         viewModel.putTxt.observe(this, {
             if (it != null) {
                 if (it == "{") {
                     recv = ""
+                    check = true
                 }
                 recv += it
                 sv_read_data.fullScroll(View.FOCUS_DOWN)
                 viewModel.txtRead.set(recv)
                 Log.d("checkSignal", recv)
 
-                if (it == "}") {
+                if (it == "}" && check) {
                     val obj = JSONObject(recv)
-                    viewModel.txtTem.set(obj.getString("T"))
+                    viewModel.txtTem.set(obj.getString("T") + "°C")
                     viewModel.txtHum.set(obj.getString("H"))
                     viewModel.txtSol.set(obj.getString("S"))
+                    check = false
+
+                    if (check_init) {
+                        var led = obj.getString("L")
+                        var water = obj.getString("W")
+                        var fan = obj.getString("F")
+                        var curtain = obj.getString("C")
+
+                        if (led == "1") {
+                            btn_led.setImageResource(R.drawable.led_on)
+                            btn_led_check = 1
+                        }
+
+                        if (water == "1") {
+                            btn_water.setImageResource(R.drawable.water_on)
+                            btn_water_check = 1
+                        }
+
+                        if (fan == "1") {
+                            btn_fan.setImageResource(R.drawable.fan_on)
+                            btn_fan_check = 1
+                        }
+
+                        if (curtain == "1") {
+                            btn_curtain.setImageResource(R.drawable.curtain_on)
+                            btn_curtain_check = 1
+                        }
+
+                        check_init = false
+                    }
                 }
             }
         })
