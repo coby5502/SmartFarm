@@ -47,12 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         btn_led.setOnClickListener {
             if(btn_led_check == 0) {
-                btn_led.setImageResource(R.drawable.led_off)
-                viewModel.onClickSendData("led on")
+                btn_led.setImageResource(R.drawable.led_on)
+                viewModel.onClickSendData("led_on")
                 btn_led_check = 1
             } else {
-                btn_led.setImageResource(R.drawable.led_on)
-                viewModel.onClickSendData("led off")
+                btn_led.setImageResource(R.drawable.led_off)
+                viewModel.onClickSendData("led_off")
                 btn_led_check = 0
             }
         }
@@ -62,12 +62,12 @@ class MainActivity : AppCompatActivity() {
 
         btn_water.setOnClickListener {
             if(btn_water_check == 0) {
-                btn_water.setImageResource(R.drawable.water_off)
-                viewModel.onClickSendData("water on")
+                btn_water.setImageResource(R.drawable.water_on)
+                viewModel.onClickSendData("water_on")
                 btn_water_check = 1
             } else {
-                btn_water.setImageResource(R.drawable.water_on)
-                viewModel.onClickSendData("water off")
+                btn_water.setImageResource(R.drawable.water_off)
+                viewModel.onClickSendData("water_off")
                 btn_water_check = 0
             }
         }
@@ -77,12 +77,12 @@ class MainActivity : AppCompatActivity() {
 
         btn_fan.setOnClickListener {
             if(btn_fan_check == 0) {
-                btn_fan.setImageResource(R.drawable.fan_off)
-                viewModel.onClickSendData("fan on")
+                btn_fan.setImageResource(R.drawable.fan_on)
+                viewModel.onClickSendData("fan_on")
                 btn_fan_check = 1
             } else {
-                btn_fan.setImageResource(R.drawable.fan_on)
-                viewModel.onClickSendData("fan off")
+                btn_fan.setImageResource(R.drawable.fan_off)
+                viewModel.onClickSendData("fan_off")
                 btn_fan_check = 0
             }
         }
@@ -92,12 +92,12 @@ class MainActivity : AppCompatActivity() {
 
         btn_curtain.setOnClickListener {
             if(btn_curtain_check == 0) {
-                btn_curtain.setImageResource(R.drawable.curtain_off)
-                viewModel.onClickSendData("curtain on")
+                btn_curtain.setImageResource(R.drawable.curtain_on)
+                viewModel.onClickSendData("curtain_on")
                 btn_curtain_check = 1
             } else {
-                btn_curtain.setImageResource(R.drawable.curtain_on)
-                viewModel.onClickSendData("curtain off")
+                btn_curtain.setImageResource(R.drawable.curtain_off)
+                viewModel.onClickSendData("curtain_off")
                 btn_curtain_check = 0
             }
         }
@@ -160,6 +160,9 @@ class MainActivity : AppCompatActivity() {
                 recv += it
                 sv_read_data.fullScroll(View.FOCUS_DOWN)
                 viewModel.txtRead.set(recv)
+                if(recv.length >= 4) {
+                    viewModel.tem.set(recv.substring(0, 3) + "C")
+                }
             }
         })
     }
@@ -196,6 +199,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.txtRead.set("")
+        viewModel.tem.set("")
     }
 
     override fun onPause(){

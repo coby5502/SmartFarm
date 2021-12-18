@@ -29,6 +29,8 @@ class MainViewModel(private val repository: Repository): ViewModel() {
         get() = repository.connectError
 
     val txtRead: ObservableField<String> = ObservableField("")
+    val tem: ObservableField<String> = ObservableField("")
+
     val putTxt: LiveData<String>
         get() = repository.putTxt
 
